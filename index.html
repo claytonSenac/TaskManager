@@ -4,8 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
+    <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body>
-    
+    <div class="containerForm">
+        <form id="form">
+            <section class="itemForm">
+                <label for="tituloTask">Titulo:</label>
+                <input type="text" name="tituloTask" id="tituloTask" required>
+            </section>
+            <section class="itemForm">
+                <label for="descTask">Descrição:</label>
+                <input type="text" name="descTask" id="descTask">
+            </section>
+            <section class="itemForm">
+                <label for="dataTask">Data:</label>
+                <input type="datetime-local" name="dataTask" id="dataTask" required>
+            </section>
+            <section class="itemForm">
+                <label for="prioridadeTask">Prioridade:</label>
+                <select name="prioridadeTask" id="prioridadeTask">
+                    <option value="0">Baixa</option>
+                    <option value="1">Normal</option>
+                    <option value="2">Urgente</option>
+                </select>
+            </section>
+            <button>Salvar Tarefa</button>
+        </form>
+    </div>
+    <div class="containerListTasks"></div>
 </body>
 </html>
