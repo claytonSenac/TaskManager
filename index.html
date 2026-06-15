@@ -7,19 +7,26 @@
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
 <body>
+    <h1>Task Manager</h1>
     <div class="containerForm">
+        <h2>Criar Tarefa</h2>
         <form id="form">
             <section class="itemForm">
                 <label for="tituloTask">Titulo:</label>
                 <input type="text" name="tituloTask" id="tituloTask" required>
             </section>
-            <section class="itemForm">
+            <section class="itemForm description">
                 <label for="descTask">Descrição:</label>
-                <input type="text" name="descTask" id="descTask">
+                <textarea class="textArea" maxlength="128"></textarea>
             </section>
             <section class="itemForm">
                 <label for="dataTask">Data:</label>
-                <input type="datetime-local" name="dataTask" id="dataTask" required>
+                <input 
+                type="datetime-local"
+                 name="dataTask" 
+                 id="dataTask" 
+                 required
+                 min="2026-01-01T00:00">
             </section>
             <section class="itemForm">
                 <label for="prioridadeTask">Prioridade:</label>
@@ -29,7 +36,7 @@
                     <option value="2">Urgente</option>
                 </select>
             </section>
-            <button>Salvar Tarefa</button>
+            <button class="saveBtn">Salvar Tarefa</button>
         </form>
     </div>
     <div class="containerListTasks"></div>
