@@ -1,0 +1,13 @@
+/* DEFINIÇÃO DE VARIAVEIS DO PROJETO */
+
+/* Paleta pega em 
+https://color.adobe.com/explore?q=blue&color-palette=2A2C2B%2C374140%2CE3E3E3%2C2B5987%2CE5DFC5&color-palette-name=My+Color+Theme
+ */
+ 
+:root{
+    --Primary-Color: #2A2C2B;
+    --Secondary-Color:#374140;
+    --Contrast-Color: #E3E3E3;
+    --Blue-Color: #2B5987;
+    --Beige-Color: #E5DFC5;
+}
