@@ -4,41 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
+
+    <!-- biblioteca de icones -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="src/css/styles.css">
+    <script src="./src/script/index.js" defer type="text/javascript"></script>
 </head>
 <body>
     <h1>Task Manager</h1>
-    <div class="containerForm">
-        <h2>Criar Tarefa</h2>
-        <form id="form">
-            <section class="itemForm">
-                <label for="tituloTask">Titulo:</label>
-                <input type="text" name="tituloTask" id="tituloTask" required>
-            </section>
-            <section class="itemForm description">
-                <label for="descTask">Descrição:</label>
-                <textarea class="textArea" maxlength="128"></textarea>
-            </section>
-            <section class="itemForm">
-                <label for="dataTask">Data:</label>
-                <input 
-                type="datetime-local"
-                 name="dataTask" 
-                 id="dataTask" 
-                 required
-                 min="2026-01-01T00:00">
-            </section>
-            <section class="itemForm">
-                <label for="prioridadeTask">Prioridade:</label>
-                <select name="prioridadeTask" id="prioridadeTask">
-                    <option value="0">Baixa</option>
-                    <option value="1">Normal</option>
-                    <option value="2">Urgente</option>
-                </select>
-            </section>
-            <button class="saveBtn">Salvar Tarefa</button>
-        </form>
+    <div class="containerTasks">
+        <div class="containerForm">
+            <h2>Criar Tarefa</h2>
+            <form id="form">
+                <section class="itemForm">
+                    <label for="tituloTask">Titulo:</label>
+                    <input type="text" name="tituloTask" id="tituloTask" required>
+                </section>
+                <section class="itemForm description">
+                    <label for="descTask">Descrição:</label>
+                    <textarea id="descTask" class="textArea" maxlength="128"></textarea>
+                </section>
+                <section class="itemForm">
+                    <label for="dataTask">Data:</label>
+                    <input
+                    type="datetime-local"
+                     name="dataTask"
+                     id="dataTask"
+                     required
+                     min="2026-01-01T00:00">
+                </section>
+                <section class="itemForm">
+                    <label for="prioridadeTask">Prioridade:</label>
+                    <select name="prioridadeTask" id="prioridadeTask">
+                        <option value="0">Baixa</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Urgente</option>
+                    </select>
+                </section>
+                <button class="saveBtn">Salvar Tarefa</button>
+            </form>
+        </div>
+        <ul class="containerListTasks"></ul>
     </div>
-    <div class="containerListTasks"></div>
 </body>
 </html>
