@@ -5,11 +5,33 @@ const LSS_NAME = "tasks";
 //Pego o formulario e os campos do form
 const form = document.querySelector('#form');
 const list = document.querySelector('.containerListTasks')
+const saveBtn = document.querySelector('#saveBtn')
 
 const titulo = document.querySelector('#tituloTask');
 const descricao = document.querySelector('#descTask');
 const data = document.querySelector('#dataTask');
 const prioridade = document.querySelector('#prioridadeTask');
+
+//Estados modificaveis
+let isEditing = false
+let indexTarefa = null;
+
+function onLoad(){
+    console.log('onload');
+
+
+    if(isEditing){
+        saveBtn.textContent = 'Editar';
+    }else{
+        saveBtn.textContent = "Salvar"
+    }
+
+}
+
+document.addEventListener('click',() => {
+  onLoad();
+})
+   
 
 //Escuto o envio do formulario
 form.addEventListener('submit',(e) => {
@@ -34,9 +56,19 @@ form.addEventListener('submit',(e) => {
     const isValid = validarDados(task);
 
     if(isValid){
-        const res = salvarLocalStorage(task);
+        if(isEditing){
+            if(indexTarefa == null) return alert('erro');
+
+            salvarAlteracoes(task,indexTarefa);
+            isEditing = false;
+            alert('Alterações Salvas');
+
+        }else{
+            salvarLocalStorage(task);
+            alert('Tarefa Criada');
+
+        }
         //console.log(res)
-        alert('Tarefa Criada')
         form.reset();
     }else{
         alert('dados invalidos!')
@@ -75,6 +107,21 @@ function salvarLocalStorage(task){
         console.log('erro ao salvar',e)
     }
        
+}
+
+function salvarAlteracoes(task,index){
+    const dados = getData();
+    let tarefa = dados[index];
+
+    tarefa.titulo = task.titulo;
+    tarefa.descricao = task.descricao;
+    tarefa.prioridade = task.prioridade;
+    tarefa.data = task.data;
+
+    dados.splice(index,1,tarefa);
+    localStorage.setItem(LSS_NAME, JSON.stringify(dados));
+
+    return tarefa;
 }
 
 //recupero os dados do local storage formato
@@ -120,6 +167,9 @@ function exibirDados(){
         const checkButton = document.createElement('div');
         checkButton.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
         
+        const editButton = document.createElement('div');
+        editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
+
         deleteButton.addEventListener('click',()=>{
             apagarTarefa(i);
         });
@@ -127,6 +177,10 @@ function exibirDados(){
         checkButton.addEventListener('click',() => {
             marcarTarefaConcluida(i);
         });
+
+        editButton.addEventListener('click',() => {
+          editarTarefa(i);
+        })
        
         div.appendChild(pTitulo);
         //div.appendChild(pDesc);
@@ -135,11 +189,12 @@ function exibirDados(){
         div.appendChild(pConcluida);
 
         actions.appendChild(deleteButton);
-        
+
         if(e.concluida){
             div.classList.add('completedTask')
         }else{
             actions.appendChild(checkButton);
+            actions.appendChild(editButton);
         }
 
         div.appendChild(actions)
@@ -193,6 +248,20 @@ function marcarTarefaConcluida(index){
     exibirDados()
 }
 
+function editarTarefa(index){
+    isEditing = true;
+    indexTarefa = index;
+    console.log('editando');
+    const dados = getData();
+
+    let tarefa = dados[index];
+
+    titulo.value = tarefa.titulo;
+    data.value = tarefa.data;
+    prioridade.value = tarefa.prioridade;
+    descricao.value = tarefa.descricao;
+}
+
 function gerarLabels(){
     const div = document.createElement('div');
     div.classList.add('labelsTask')
@@ -224,4 +293,6 @@ function gerarLabels(){
         list.appendChild(div);
 }
 
+onLoad()
 exibirDados();
+ 
