@@ -163,7 +163,9 @@ h1{
     text-indent: 1rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    position: relative;
+    transition: .3s;
 }
 
 
@@ -185,6 +187,7 @@ h1{
     left: 0;
     box-shadow: var(--box-shadow-default);
     background-color: var(--Beige-Color);
+    z-index: 999;
 }
 
 .actionsDiv{
@@ -199,5 +202,20 @@ h1{
         TODO: MELHORAR ISSO
     */
     font-weight: bold;
+}
+
+.descItem{
+    position: absolute;
+    bottom: 2rem;
+    left: 3rem;
+
+    width: 80%;
+    word-break: break-all;
+}
+
+.openMenu{
+    padding: 2rem;
+    align-items: flex-start;
+    height: 250px;
 }
 

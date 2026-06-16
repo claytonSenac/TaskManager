@@ -17,8 +17,6 @@ let isEditing = false
 let indexTarefa = null;
 
 function onLoad(){
-    console.log('onload');
-
 
     if(isEditing){
         saveBtn.textContent = 'Editar';
@@ -31,7 +29,6 @@ function onLoad(){
 document.addEventListener('click',() => {
   onLoad();
 })
-   
 
 //Escuto o envio do formulario
 form.addEventListener('submit',(e) => {
@@ -140,16 +137,17 @@ function exibirDados(){
         const div = document.createElement('div');
 
         const pTitulo = document.createElement('p');
-        const pDesc = document.createElement('p');
+        
         const pDate = document.createElement('p');
         const pPrioridade = document.createElement('p');
         const pConcluida = document.createElement('p');
 
         div.classList.add('itemListTask');
+
         
-     
+        
         pTitulo.innerHTML = e.titulo;
-        //pDesc.innerHTML = e.descricao;
+         
         pDate.innerHTML = formatDate(e.data);
         pPrioridade.innerHTML = getOptionValue(e.prioridade);
 
@@ -170,6 +168,9 @@ function exibirDados(){
         const editButton = document.createElement('div');
         editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
 
+        const eyeButton = document.createElement('div');
+        eyeButton.innerHTML = '<i class="bi bi-eye-fill"></i>'
+
         deleteButton.addEventListener('click',()=>{
             apagarTarefa(i);
         });
@@ -180,24 +181,28 @@ function exibirDados(){
 
         editButton.addEventListener('click',() => {
           editarTarefa(i);
+        });
+
+        eyeButton.addEventListener('click',() => {
+          exibirDetalhes(i);
         })
        
         div.appendChild(pTitulo);
-        //div.appendChild(pDesc);
         div.appendChild(pDate);
         div.appendChild(pPrioridade);
         div.appendChild(pConcluida);
-
+        
+        actions.appendChild(eyeButton);
         actions.appendChild(deleteButton);
-
+        
         if(e.concluida){
             div.classList.add('completedTask')
         }else{
             actions.appendChild(checkButton);
             actions.appendChild(editButton);
         }
-
-        div.appendChild(actions)
+        
+        div.appendChild(actions);
         
         list.appendChild(div)
     });
@@ -251,9 +256,8 @@ function marcarTarefaConcluida(index){
 function editarTarefa(index){
     isEditing = true;
     indexTarefa = index;
-    console.log('editando');
+    
     const dados = getData();
-
     let tarefa = dados[index];
 
     titulo.value = tarefa.titulo;
@@ -291,6 +295,41 @@ function gerarLabels(){
         div.appendChild(pButton);
         
         list.appendChild(div);
+}
+
+function exibirDetalhes(index){
+     
+    const dados = getData();
+    let tarefa = dados[index];
+
+    const lista = document.querySelectorAll('.itemListTask');
+    let posicao = index + 1;
+
+    const desc = document.createElement('div');
+    desc.classList.add('descItem');
+    desc.innerHTML = `<h3>Descrição:</h3> <p>${tarefa.descricao}</p>`
+
+    //faço um foreach dos itens e pego o item atual para manipular
+    //tem que ser index++ porque eu seto no primeiro item um label padrao!!!!
+ 
+    lista.forEach((e,i)=>{
+        if(i == posicao){
+            if(e.classList.contains('openMenu')){
+                e.classList.remove('openMenu');
+
+                //pego o elemento dentro da div 
+                const desc = e.querySelector('.descItem');
+                e.removeChild(desc);
+
+            }else{
+                e.appendChild(desc);
+                e.classList.add('openMenu');
+            }
+        }
+         
+    });
+
+
 }
 
 onLoad()
