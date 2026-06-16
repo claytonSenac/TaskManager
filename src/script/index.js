@@ -105,13 +105,27 @@ function exibirDados(){
         //pDesc.innerHTML = e.descricao;
         pDate.innerHTML = formatDate(e.data);
         pPrioridade.innerHTML = getOptionValue(e.prioridade);
+
+        
+
         pConcluida.innerHTML = e.concluida == true ? "Concluída" : "Em Aberto"; 
 
-        const button = document.createElement('div');
-        button.innerHTML = '<i class="bi bi-trash-fill"></i>';
+        const actions = document.createElement('div');
+        actions.classList.add('actionsDiv');
+
+
+        const deleteButton = document.createElement('div');
+        deleteButton.innerHTML = '<i class="bi bi-trash-fill"></i>';
+
+        const checkButton = document.createElement('div');
+        checkButton.innerHTML = '<i class="bi bi-check-circle-fill"></i>';
         
-        button.addEventListener('click',()=>{
-            apagarTarefa(i)
+        deleteButton.addEventListener('click',()=>{
+            apagarTarefa(i);
+        });
+
+        checkButton.addEventListener('click',() => {
+            marcarTarefaConcluida(i);
         });
        
         div.appendChild(pTitulo);
@@ -119,7 +133,16 @@ function exibirDados(){
         div.appendChild(pDate);
         div.appendChild(pPrioridade);
         div.appendChild(pConcluida);
-        div.appendChild(button);
+
+        actions.appendChild(deleteButton);
+        
+        if(e.concluida){
+            div.classList.add('completedTask')
+        }else{
+            actions.appendChild(checkButton);
+        }
+
+        div.appendChild(actions)
         
         list.appendChild(div)
     });
@@ -159,6 +182,17 @@ function apagarTarefa(index){
     exibirDados()
 }
 
+function marcarTarefaConcluida(index){
+    const dados = getData();
+    console.log('tarefa ', dados[index]);
+    let tarefa = dados[index];
+
+    tarefa.concluida = true;
+    dados.splice(index,1,tarefa);
+    localStorage.setItem(LSS_NAME, JSON.stringify(dados));
+    exibirDados()
+}
+
 function gerarLabels(){
     const div = document.createElement('div');
     div.classList.add('labelsTask')
@@ -188,7 +222,6 @@ function gerarLabels(){
         div.appendChild(pButton);
         
         list.appendChild(div);
-
 }
 
 exibirDados();

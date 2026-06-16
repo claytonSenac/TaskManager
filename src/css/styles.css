@@ -22,6 +22,8 @@ https://color.adobe.com/explore?q=blue&color-palette=2A2C2B%2C374140%2CE3E3E3%2C
     box-sizing: border-box;
 }
 
+ 
+
 body{
     min-height: 100vh;
     width: 100%;
@@ -34,9 +36,13 @@ body{
     font-family: var(--font-family);
 }
 
+h1{
+    font-size: 3rem;
+}
+
 .containerTasks{
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     width: 80%;
     height: 100%;
     margin: 0 auto;
@@ -48,7 +54,7 @@ body{
     justify-content: space-around;
     flex-direction: column;
     min-height: 60vh;
-    width: 50%;
+    width: 80%;
     max-width: 600px;
     background-color: var(--Contrast-Color);
     border-radius: 0.75rem;
@@ -132,7 +138,7 @@ body{
 .containerListTasks{
      display: grid;
     grid-gap: 1rem;
-    grid-template-rows: 1fr repeat(auto-fill, 3rem) 2rem;
+    grid-template-rows: 1fr  ;
     
     flex-direction: column;
     height: 60vh;
@@ -162,7 +168,7 @@ body{
 
 
 
-.bi-trash-fill{
+.bi{
     color: var(--Blue-Color);
     font-size: 1.5rem;
     cursor: pointer;
@@ -173,5 +179,24 @@ body{
     text-align: center;
 }
 
+.labelsTask{
+    position: sticky;
+    top: 0;
+    left: 0;
+    box-shadow: var(--box-shadow-default);
+    background-color: var(--Beige-Color);
+}
 
+.actionsDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+ 
+}
 
+.completedTask{
+    /*
+        TODO: MELHORAR ISSO
+    */
+    font-weight: bold;
+}
