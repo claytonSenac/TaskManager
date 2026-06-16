@@ -130,19 +130,21 @@ body{
 }
 
 .containerListTasks{
-     display: flex;
-    
+     display: grid;
+    grid-gap: 1rem;
+    grid-template-rows: 1fr repeat(auto-fill, 3rem) 2rem;
     
     flex-direction: column;
-    min-height: 60vh;
+    height: 60vh;
+
     width: 100%;
     max-width: 80vw;
     background-color: var(--Blue-Color);
     border-radius: 0.75rem;
     box-shadow: var(--box-shadow-default);
-    gap: 1rem;
     padding: 2rem;
     color: var(--Contrast-Color);
+    overflow-y: scroll;
 }
 
 .itemListTask{
@@ -158,8 +160,18 @@ body{
     justify-content: space-between;
 }
 
+
+
 .bi-trash-fill{
     color: var(--Blue-Color);
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+.labelsTask p{
+    font-weight: bold;
+    text-align: center;
+}
+
+
+

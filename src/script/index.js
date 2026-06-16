@@ -87,16 +87,25 @@ function getData(){
 
 function exibirDados(){
     list.innerHTML = "";
-
+    gerarLabels();
     const data = getData();
     data.forEach((e,i) => {
-        const li = document.createElement('li');
+        const div = document.createElement('div');
 
-        const el = document.createElement('p');
-        li.classList.add('itemListTask')
-        let concluidaText = e.concluida == true ? "Concluída" : "Em Aberto";
-        let option = getOptionValue(e.prioridade);
-        let date = formatDate(e.data);
+        const pTitulo = document.createElement('p');
+        const pDesc = document.createElement('p');
+        const pDate = document.createElement('p');
+        const pPrioridade = document.createElement('p');
+        const pConcluida = document.createElement('p');
+
+        div.classList.add('itemListTask');
+        
+     
+        pTitulo.innerHTML = e.titulo;
+        //pDesc.innerHTML = e.descricao;
+        pDate.innerHTML = formatDate(e.data);
+        pPrioridade.innerHTML = getOptionValue(e.prioridade);
+        pConcluida.innerHTML = e.concluida == true ? "Concluída" : "Em Aberto"; 
 
         const button = document.createElement('div');
         button.innerHTML = '<i class="bi bi-trash-fill"></i>';
@@ -104,14 +113,15 @@ function exibirDados(){
         button.addEventListener('click',()=>{
             apagarTarefa(i)
         });
-
-        el.innerHTML = `${e.titulo} | ${e.descricao} | ${date} | ${option} | ${concluidaText}`;
-
-
-        li.appendChild(el)
-        li.appendChild(button)
-
-        list.appendChild(li)
+       
+        div.appendChild(pTitulo);
+        //div.appendChild(pDesc);
+        div.appendChild(pDate);
+        div.appendChild(pPrioridade);
+        div.appendChild(pConcluida);
+        div.appendChild(button);
+        
+        list.appendChild(div)
     });
 };
 
@@ -147,6 +157,38 @@ function apagarTarefa(index){
 
     localStorage.setItem(LSS_NAME, JSON.stringify(dados));
     exibirDados()
+}
+
+function gerarLabels(){
+    const div = document.createElement('div');
+    div.classList.add('labelsTask')
+
+        const pTitulo = document.createElement('p');
+        const pDesc = document.createElement('p');
+        const pDate = document.createElement('p');
+        const pPrioridade = document.createElement('p');
+        const pConcluida = document.createElement('p');
+        const pButton = document.createElement('p');
+
+        div.classList.add('itemListTask');
+        
+     
+        pTitulo.innerHTML = 'TITULO';
+        //pDesc.innerHTML = "DESCRIÇÃO";
+        pDate.innerHTML = 'DATA';
+        pPrioridade.innerHTML = 'PRIORIDADE';
+        pConcluida.innerHTML = 'STATUS'; 
+        pButton.innerHTML = "AÇÕES"
+        
+        div.appendChild(pTitulo);
+        //div.appendChild(pDesc);
+        div.appendChild(pDate);
+        div.appendChild(pPrioridade);
+        div.appendChild(pConcluida);
+        div.appendChild(pButton);
+        
+        list.appendChild(div);
+
 }
 
 exibirDados();
