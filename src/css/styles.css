@@ -135,13 +135,22 @@ h1{
     background-color: var(--Secondary-Color);
 }
 
+.listTasks{
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .containerListTasks{
      display: grid;
     grid-gap: 1rem;
     grid-template-rows: 1fr  ;
     
     flex-direction: column;
-    height: 60vh;
+    max-height: 60vh;
 
     width: 100%;
     max-width: 80vw;
@@ -186,8 +195,10 @@ h1{
     top: 0;
     left: 0;
     box-shadow: var(--box-shadow-default);
-    background-color: var(--Beige-Color);
+    background-color: var(--Primary-Color);
+    color: var(--Contrast-Color);
     z-index: 999;
+    max-height: 3rem;
 }
 
 .actionsDiv{
@@ -219,3 +230,74 @@ h1{
     height: 250px;
 }
 
+.boxFilters{
+    display: flex;
+    width: 80%;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-around;
+     background-color: var(--Blue-Color);
+    color: var(--Contrast-Color);
+    margin: 0 auto;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    flex-wrap: wrap; 
+}
+
+.listTasks h2{
+    text-align: center;
+    background-color: var(--Contrast-Color);
+    color: var(--Primary-Color);
+    width: 40%;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.filterText{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.filterText h3{
+    text-align: center;
+}
+
+.filterText input{
+    width: 80%;
+    height: 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 0 1rem;
+    font-size: 1rem;
+}
+
+#filterPriority, #filterStatus{
+        border: 1px solid black;
+    border-radius: 0.3rem;
+    padding: 0 1rem;
+    font-weight: 500;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+}
+
+#filterButton{
+    padding: 1rem 2rem;
+    border: none;
+    outline: none;
+    background-color: var(--Primary-Color);
+    color: var(--Contrast-Color);
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.filterPriority, .filterStatus{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

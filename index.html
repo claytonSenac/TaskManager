@@ -44,9 +44,37 @@
                 <button class="saveBtn" id="saveBtn"></button>
             </form>
         </div>
-        <div class="containerListTasks">
+        <div class="listTasks">
+            <h2>Filtros</h2>
+            <div class="boxFilters">
+                <div class="filterText">
+                    <h3>Titulo</h3>
+                    <input type="text" id="filterText" name="filterText">
+                </div>
+                <div class="filterPriority">
+                    <h3>Prioridade</h3>
+                    <select id="filterPriority">
+                        <option value="desativado">Nenhum</option>
+                        <option value="0">Baixa</option>
+                        <option value="1">Normal</option>
+                        <option value="2">Urgente</option>
+                    </select>
+                </div>
+                <div class="filterStatus">
+                    <h3>Status</h3>
+                    <select id="filterStatus">
+                        <option value="desativado">Nenhum</option>
+                        <option value="0">Concluidas</option>
+                        <option value="1">Em Andamento</option>
+                    </select>
+                </div>
+                <button id="filterButton" onclick="buscarComFiltro()">Filtrar</button>
+            </div>
+            <div class="containerListTasks">
 
+            </div>
         </div>
+       
     </div>
 </body>
 </html>

@@ -4,8 +4,12 @@ const LSS_NAME = "tasks";
 
 //Pego o formulario e os campos do form
 const form = document.querySelector('#form');
-const list = document.querySelector('.containerListTasks')
-const saveBtn = document.querySelector('#saveBtn')
+const list = document.querySelector('.containerListTasks');
+const saveBtn = document.querySelector('#saveBtn');
+
+const filterPriority = document.querySelector('#filterPriority');
+const filterStatus = document.querySelector('#filterStatus');
+const filterText = document.querySelector('#filterText');
 
 const titulo = document.querySelector('#tituloTask');
 const descricao = document.querySelector('#descTask');
@@ -23,7 +27,6 @@ function onLoad(){
     }else{
         saveBtn.textContent = "Salvar"
     }
-
 }
 
 document.addEventListener('click',() => {
@@ -71,7 +74,7 @@ form.addEventListener('submit',(e) => {
         alert('dados invalidos!')
     }
     //console.log(isValid)
-    exibirDados();
+    exibirDados(getData());
 });
 
 // funcao para validar integridade dos dados
@@ -129,10 +132,61 @@ function getData(){
     return parsedData;
 }
 
-function exibirDados(){
+function buscarComFiltro(){
+    isFiltering = true;
+    const prioridade = filterPriority.value;
+    const status = filterStatus.value;
+    const text = filterText.value;
+
+    let filteredData = getData();
+
+    if(prioridade != "desativado" && status != "desativado"){
+        const statusBol = status == "0" ? true : false;
+        
+        filteredData = filteredData.filter( (t) => t.prioridade == prioridade && t.concluida == statusBol && t.titulo == text);
+
+        //console.log('os 2',status,prioridade)
+    }
+
+    if(prioridade != "desativado" && status == "desativado"){
+        filteredData = filteredData.filter( (t) => t.prioridade == prioridade);
+
+        //console.log('so prioridade',status,prioridade)
+    }
+
+    if(status != "desativado" && prioridade == "desativado"){
+        const statusBol = status == "0" ? true : false;
+        filteredData = filteredData.filter( (t) => t.concluida == statusBol);
+
+        //console.log('so status',status,prioridade)
+    }
+
+    //busca tambem pelo começo pra ver se escreveu errado
+    if(text.length > 0){
+        if(text.length > 2){
+            let initialText = text.slice(0, text.length--); 
+            //filteredData = filteredData.filter( (t) => t.titulo == text || t.titulo.includes(initialText));
+            filteredData = filteredData.filter( (t) => t.titulo.slice(0,text.length--) == initialText || t.titulo === text);
+        }else{
+            filteredData = filteredData.filter( (t) => t.titulo === text);
+        }
+
+        exibirDados(filteredData);
+        return;
+    }else{
+        exibirDados(filteredData)
+    }
+
+    if(status == "desativado" && prioridade == "desativado"){
+        exibirDados(getData());
+        return
+    }   
+}
+
+function exibirDados(data){
     list.innerHTML = "";
     gerarLabels();
-    const data = getData();
+    
     data.forEach((e,i) => {
         const div = document.createElement('div');
 
@@ -239,7 +293,7 @@ function apagarTarefa(index){
     alert('tarefa apagada!');
 
     localStorage.setItem(LSS_NAME, JSON.stringify(dados));
-    exibirDados()
+    exibirDados(getData())
 }
 
 function marcarTarefaConcluida(index){
@@ -250,7 +304,7 @@ function marcarTarefaConcluida(index){
     tarefa.concluida = true;
     dados.splice(index,1,tarefa);
     localStorage.setItem(LSS_NAME, JSON.stringify(dados));
-    exibirDados()
+    exibirDados(getData())
 }
 
 function editarTarefa(index){
@@ -268,7 +322,7 @@ function editarTarefa(index){
 
 function gerarLabels(){
     const div = document.createElement('div');
-    div.classList.add('labelsTask')
+    div.classList.add('labelsTask');
 
         const pTitulo = document.createElement('p');
         const pDesc = document.createElement('p');
@@ -333,5 +387,5 @@ function exibirDetalhes(index){
 }
 
 onLoad()
-exibirDados();
+exibirDados(getData());
  
