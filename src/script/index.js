@@ -1,6 +1,6 @@
-//Variaveis locais
-const OPTIONS_COUNT = 3;
-const LSS_NAME = "tasks";
+import { getData,buscarComFiltro,apagarTarefa,salvarAlteracoes,salvarLocalStorage } from "./taskService.js";
+import {formatDate,getOptionValue,validarDados,gerarLabels} from "./utils.js"
+
 
 //Pego o formulario e os campos do form
 const form = document.querySelector('#form');
@@ -31,6 +31,10 @@ function onLoad(){
 
 document.addEventListener('click',() => {
   onLoad();
+})
+
+window.addEventListener('resize',() => {
+  exibirDados(getData())
 })
 
 //Escuto o envio do formulario
@@ -77,115 +81,12 @@ form.addEventListener('submit',(e) => {
     exibirDados(getData());
 });
 
-// funcao para validar integridade dos dados
-function validarDados(task){
-    if(!task) return false;
-
-    if(!task.titulo || !task.descricao || !task.data || !task.prioridade){
-        console.log('faltam dados', task)
-        return false;
-    }
-
-    if(task.prioridade > OPTIONS_COUNT) return false;
-
-    return true
-}
-
-function salvarLocalStorage(task){
-    if(!validarDados(task)) return null;
-    try{
-        let previusData = getData();
-
-        previusData.push(task);
-
-        const parsedData = JSON.stringify(previusData);
-
-        localStorage.setItem(LSS_NAME, parsedData); 
-
-        return previusData;
-    }catch(e){
-        console.log('erro ao salvar',e)
-    }
-       
-}
-
-function salvarAlteracoes(task,index){
-    const dados = getData();
-    let tarefa = dados[index];
-
-    tarefa.titulo = task.titulo;
-    tarefa.descricao = task.descricao;
-    tarefa.prioridade = task.prioridade;
-    tarefa.data = task.data;
-
-    dados.splice(index,1,tarefa);
-    localStorage.setItem(LSS_NAME, JSON.stringify(dados));
-
-    return tarefa;
-}
-
-//recupero os dados do local storage formato
-function getData(){
-    const data = localStorage.getItem(LSS_NAME);
-
-    const parsedData = JSON.parse(data) || [];
-    return parsedData;
-}
-
-function buscarComFiltro(){
-    isFiltering = true;
-    const prioridade = filterPriority.value;
-    const status = filterStatus.value;
-    const text = filterText.value;
-
-    let filteredData = getData();
-
-    if(prioridade != "desativado" && status != "desativado"){
-        const statusBol = status == "0" ? true : false;
-        
-        filteredData = filteredData.filter( (t) => t.prioridade == prioridade && t.concluida == statusBol && t.titulo == text);
-
-        //console.log('os 2',status,prioridade)
-    }
-
-    if(prioridade != "desativado" && status == "desativado"){
-        filteredData = filteredData.filter( (t) => t.prioridade == prioridade);
-
-        //console.log('so prioridade',status,prioridade)
-    }
-
-    if(status != "desativado" && prioridade == "desativado"){
-        const statusBol = status == "0" ? true : false;
-        filteredData = filteredData.filter( (t) => t.concluida == statusBol);
-
-        //console.log('so status',status,prioridade)
-    }
-
-    //busca tambem pelo começo pra ver se escreveu errado
-    if(text.length > 0){
-        if(text.length > 2){
-            let initialText = text.slice(0, text.length--); 
-            //filteredData = filteredData.filter( (t) => t.titulo == text || t.titulo.includes(initialText));
-            filteredData = filteredData.filter( (t) => t.titulo.slice(0,text.length--) == initialText || t.titulo === text);
-        }else{
-            filteredData = filteredData.filter( (t) => t.titulo === text);
-        }
-
-        exibirDados(filteredData);
-        return;
-    }else{
-        exibirDados(filteredData)
-    }
-
-    if(status == "desativado" && prioridade == "desativado"){
-        exibirDados(getData());
-        return
-    }   
-}
-
 function exibirDados(data){
     list.innerHTML = "";
     gerarLabels();
+
+    let width = window.innerWidth;
+    let mobileVision = width > 1200 ? false : true;
     
     data.forEach((e,i) => {
         const div = document.createElement('div');
@@ -198,16 +99,17 @@ function exibirDados(data){
 
         div.classList.add('itemListTask');
 
-        
-        
         pTitulo.innerHTML = e.titulo;
-         
-        pDate.innerHTML = formatDate(e.data);
-        pPrioridade.innerHTML = getOptionValue(e.prioridade);
-
         
-
-        pConcluida.innerHTML = e.concluida == true ? "Concluída" : "Em Aberto"; 
+        
+         
+        if(!mobileVision){
+            if(!width > 600){
+                pConcluida.innerHTML = e.concluida == true ? "Concluída" : "Em Aberto"; 
+            }
+            pDate.innerHTML = formatDate(e.data);
+            pPrioridade.innerHTML = getOptionValue(e.prioridade);
+        }
 
         const actions = document.createElement('div');
         actions.classList.add('actionsDiv');
@@ -242,12 +144,20 @@ function exibirDados(data){
         })
        
         div.appendChild(pTitulo);
-        div.appendChild(pDate);
-        div.appendChild(pPrioridade);
-        div.appendChild(pConcluida);
+
+        if(!mobileVision){
+            if(!width > 600){
+                div.appendChild(pConcluida);
+
+            }
+            div.appendChild(pDate);
+            div.appendChild(pPrioridade);
+
+
+        }
         
         actions.appendChild(eyeButton);
-        actions.appendChild(deleteButton);
+        
         
         if(e.concluida){
             div.classList.add('completedTask')
@@ -255,46 +165,13 @@ function exibirDados(data){
             actions.appendChild(checkButton);
             actions.appendChild(editButton);
         }
+            actions.appendChild(deleteButton);
         
         div.appendChild(actions);
         
         list.appendChild(div)
     });
 };
-
-function getOptionValue(option){
-    let text = "";
-
-    switch(option){
-        case '0' :
-            text = "Baixa"
-            break;
-        case '1':
-            text = "Normal"
-            break;
-        case '2':
-            text = "Urgente"
-            break;
-        default:
-            text = ""
-    }
-    return text;
-}
-
-function formatDate(date){
-    let dateTime = new Date(date);
-    return dateTime.toLocaleString();
-}
-
-function apagarTarefa(index){
-    const dados = getData();
-
-    dados.splice(index,1)
-    alert('tarefa apagada!');
-
-    localStorage.setItem(LSS_NAME, JSON.stringify(dados));
-    exibirDados(getData())
-}
 
 function marcarTarefaConcluida(index){
     const dados = getData();
@@ -320,38 +197,12 @@ function editarTarefa(index){
     descricao.value = tarefa.descricao;
 }
 
-function gerarLabels(){
-    const div = document.createElement('div');
-    div.classList.add('labelsTask');
 
-        const pTitulo = document.createElement('p');
-        const pDesc = document.createElement('p');
-        const pDate = document.createElement('p');
-        const pPrioridade = document.createElement('p');
-        const pConcluida = document.createElement('p');
-        const pButton = document.createElement('p');
-
-        div.classList.add('itemListTask');
-        
-     
-        pTitulo.innerHTML = 'TITULO';
-        //pDesc.innerHTML = "DESCRIÇÃO";
-        pDate.innerHTML = 'DATA';
-        pPrioridade.innerHTML = 'PRIORIDADE';
-        pConcluida.innerHTML = 'STATUS'; 
-        pButton.innerHTML = "AÇÕES"
-        
-        div.appendChild(pTitulo);
-        //div.appendChild(pDesc);
-        div.appendChild(pDate);
-        div.appendChild(pPrioridade);
-        div.appendChild(pConcluida);
-        div.appendChild(pButton);
-        
-        list.appendChild(div);
-}
 
 function exibirDetalhes(index){
+
+    let width = window.innerWidth;
+    let mobileVision = width > 1200 ? false : true;
      
     const dados = getData();
     let tarefa = dados[index];
@@ -361,7 +212,18 @@ function exibirDetalhes(index){
 
     const desc = document.createElement('div');
     desc.classList.add('descItem');
-    desc.innerHTML = `<h3>Descrição:</h3> <p>${tarefa.descricao}</p>`
+
+    if(mobileVision){
+        desc.innerHTML = `
+        <h3>Titulo:</h3> <p>${tarefa.titulo}</p>\n
+        <h3>Status:</h3> <p>${tarefa.concluida == true ? "Concluída" : "Em Aberto" }</p>\n
+        <h3>prioridade:</h3> <p>${ getOptionValue(tarefa.prioridade)}</p>
+        <h3>Data:</h3>\n<p>${formatDate(tarefa.data)}</p>\n
+        <h3>Descrição:</h3> <p>${tarefa.descricao}</p>
+        `
+    }else{
+        desc.innerHTML = `<h3>Descrição:</h3> <p>${tarefa.descricao}</p>`
+    }
 
     //faço um foreach dos itens e pego o item atual para manipular
     //tem que ser index++ porque eu seto no primeiro item um label padrao!!!!
