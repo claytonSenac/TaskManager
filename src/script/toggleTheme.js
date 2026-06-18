@@ -9,6 +9,7 @@ let darkTheme = false;
 //     let theme = localStorage.getItem(NM_LSS);
 
 //     //gambiarra pq true pro local storage vai como "TRUE"
+//     //tentei tambem com true false antes 
 //     if (theme !=null && (theme == 'ativo' || theme == 'desativado')){
 //         darkTheme = theme;
 
