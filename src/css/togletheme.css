@@ -1,0 +1,16 @@
+.toggleTheme{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 2rem;
+    transition: .3s;
+}
+
+.toggleTheme:hover{
+    transform: rotate(85deg);
+}
+
+.toggleTheme i {
+    font-size: 3rem;
+}

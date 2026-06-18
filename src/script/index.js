@@ -175,7 +175,7 @@ function exibirDados(data){
 
 function marcarTarefaConcluida(index){
     const dados = getData();
-    console.log('tarefa ', dados[index]);
+    //console.log('tarefa ', dados[index]);
     let tarefa = dados[index];
 
     tarefa.concluida = true;

@@ -76,7 +76,7 @@ export function gerarLabels(){
         }
 
         
-        console.log(width)
+        //console.log(width)
         div.appendChild(pButton);
         
         list.appendChild(div);

@@ -12,7 +12,7 @@ https://color.adobe.com/explore?q=blue&color-palette=2A2C2B%2C374140%2CE3E3E3%2C
     --Contrast-Color: #ffffff;
     --Blue-Color: #2B5987;
     --Light-Blue-Color: #AED0FA;
-    --Beige-Color: #E5DFC5;
+    --Beige-Color: #fbbd04;
     --box-shadow-default: 0 0 6px #00000026;
     --font-family: "Poppins",sans-serif;
 }
@@ -36,6 +36,20 @@ body{
     background-color: var(--Beige-Color);
     font-family: var(--font-family);
     transition: .3s;
+    position: relative;
+}
+
+body.darkMode{
+    --Primary-Color: #ffffff;
+    --Secondary-Color:#374140;
+    --Contrast-Color: #2A2C2B;
+    --Blue-Color: #fbbd04;
+    --Light-Blue-Color: #bb8d00;
+    --Beige-Color: #2B5987; 
+    --box-shadow-default: 0 0 6px #00000026;
+    --font-family: "Poppins",sans-serif;
+
+    color: var(--Primary-Color);
 }
 
 h1{
@@ -151,7 +165,7 @@ h1{
 .containerListTasks{
      display: flex;
     gap: 1rem;
-    
+
     flex-direction: column;
     
     height: 100%;
