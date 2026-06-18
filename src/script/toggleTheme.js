@@ -33,7 +33,7 @@ icon.addEventListener('click',() => {
 
 function toggleTheme(theme){
     if(theme){
-        console.log('estava no tema escuro, setando claro')
+        //console.log('estava no tema escuro, setando claro')
         document.body.classList.remove('darkMode');
 
         
@@ -42,7 +42,7 @@ function toggleTheme(theme){
         darkTheme = !theme;
     }else if(!theme){
         document.body.classList.add('darkMode');
-        console.log('estava no tema claro, setando escuro')
+        //console.log('estava no tema claro, setando escuro')
 
 
         icon.classList.add('bi-sun-fill')
