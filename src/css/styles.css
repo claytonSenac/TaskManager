@@ -344,7 +344,7 @@ h1{
     .containerListTasks{
         max-width: 90%;
         max-height: none;
-        min-height: 800px;
+        margin-bottom: 50px;
     }
     .containerForm{
         max-width: 90%;
