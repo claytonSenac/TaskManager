@@ -54,6 +54,6 @@ function toggleTheme(theme){
     
 
 
-    salvarTemaLocalStorage(darkTheme)
+    //salvarTemaLocalStorage(darkTheme)
 }
 
